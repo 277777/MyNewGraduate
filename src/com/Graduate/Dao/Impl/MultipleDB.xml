@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+	<mapper namespace="MultipleDB">
+	
+	    <select id="ShowStatus" parameterType="com.Graduate.Po.Friend" resultType="com.Graduate.Po.User" >
+	    	select user.* from user inner join friend on user.userid = friend.userid and friend.user_friend_id = #{userid} and friend.status = 0;
+	    </select>
+	    
+	    <select id="ShowFriend" parameterType="com.Graduate.Po.Friend" resultType="com.Graduate.Po.User" >
+	    	select user.* from user inner join friend on user.userid = friend.user_friend_id and friend.userid = #{userid} and friend.status = 1;
+	    </select>
+	    
+	    <select id="ShowMessage" parameterType="com.Graduate.Po.User" resultType="com.Graduate.Po.Multiple" >
+	    	SELECT `user`.username,message.msgtext,message.msgtime
+				FROM `user`,message
+				WHERE
+				`user`.userid = message.userid
+				AND message.userid IN (
+				SELECT user_friend_id FROM friend WHERE userid = #{userid} AND `status` = 1
+  				UNION
+				SELECT userid FROM friend WHERE userid = #{userid} AND `status` = 1
+			)ORDER BY msgtime DESC
+	    </select>
+	    
+	</mapper>

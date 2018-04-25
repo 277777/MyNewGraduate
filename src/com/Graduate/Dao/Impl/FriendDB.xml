@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+	<mapper namespace="FriendDB">
+	
+	    <insert id="AddFriend" parameterType="com.Graduate.Po.Friend" >
+	        insert into friend(userid,user_friend_id,status) values(#{userid},#{user_friend_id},#{status});
+	    </insert>
+	    
+	    <select id="ShowFriend" parameterType="com.Graduate.Po.Friend" resultType="com.Graduate.Po.Friend" >
+	    	select * from friend where userid = #{userid} and status=1;
+	    </select>
+	    
+	    <update id="UpdateFriend" parameterType="com.Graduate.Po.Friend">
+	    	update friend set status = #{status} where userid = #{userid} and user_friend_id=#{user_friend_id};
+	    </update>
+	    
+	    <select id="ShowExit" parameterType="com.Graduate.Po.Friend" resultType="com.Graduate.Po.Friend" >
+	    	select * from friend where userid = #{userid} and user_friend_id=#{user_friend_id};
+	    </select>
+	    
+	</mapper>
